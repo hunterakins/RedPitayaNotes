@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>Aliasing</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<h1>
+Testing if the Red Pitaya does anti-aliasing.
+</h1>
+<h2>
+Test 1: Sanity check.
+</h2>
+<p>
+<br>
+Sample at 15.258 kS/s.
+<br>
+Use the output to generate a 15.258 kHz signal.
+<br>
+My acquired signal should be DC.
+<br>
+Result:
+<br>
+</p>
+<h2>
+Test 2: Second sanity check. 
+</h2>
+<p>
+Sample at 15.258kS/s.
+<br>
+Use the output channel to generate a 1kHz wave.
+<br>
+Snag first .01 seconds. With period of 1ms, I should see 10 periods.
+<br>
+Result: Looks pretty good. 
+<img src="1kHzrp.png" height="555" width="500">
+<br>
+</p>
+<h2>
+Test 3: Aliasing
+</h2>
+<p>
+Sample at 15.258kS/s.
+<br>
+Use the output channel to generate a 16kHz wave.
+<br>
+Expected result if I plot the first .01 seconds of time domain data (background is the actual signal):
+<br>
+<img src="output.png" height="555" width="500">
+<br>
+Actual result:
+<br>
+<img src="16kHzrp.png" height="555" width="500">
+<br>
+As you can see, the aliased signal is clearly there, but attentuated by a factor of 200.
+</p>
+
+
+</body>
+
+</html>
+
+
+
+

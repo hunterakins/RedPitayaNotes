@@ -1,0 +1,31 @@
+GPIO:
+
+Memory mapping:
+
+Seems that peripheral base address in virtual address space is from 0
+
+Writing to a pin is as expected:
+#define iowrite32(v, p) (*(volatile uint32_t *)(p) = (v)) 
+
+int rp_GPIOpSetState(uint32_t state) {
+	iowrite32(state, &hk->ex_co_p);
+
+
+Okay, but where does hk come from?
+hk is a struct defined in housekeeping.h
+It is initialized by hk_Init (contained inside rp_Init)
+
+The meat of it, however, is the memory map, defined in common.c
+
+int cmn_Map(size_t size, size_t offset, void ** mapped)
+{
+	blah blah
+	*mapped = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, offset);	
+
+	blah blah 
+}
+
+where fd is 
+fd = open("/dev/uio/api", O_RDWR | O_SYNC)
+
+

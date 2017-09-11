@@ -1,0 +1,22 @@
+body {
+	background-color: white;
+}
+h1 {
+	font-family: "Courier", Courier, Monospace;
+	font-size: 200%;
+	color: white;
+	background-color: black;
+}
+
+p {
+	color: navy;
+	font-family: "Courier", Courier, Monospace;
+}
+
+a {
+	
+	font-family: "Courier", Courier, Monospace;
+}
+
+img {
+}

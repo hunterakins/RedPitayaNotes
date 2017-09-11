@@ -1,0 +1,85 @@
+Setup was hard at first. 
+
+------------------------------------------------------------------------------------------
+
+The first thing to do is to get an RP OS on an SD card. There are steps on the redpitaya.readthedocs.io thing.
+
+After that, you need to connect to the little fellow. Either hook it up to ethernet and hook your machine up to the same network via ethernet OR do terminal emulator (minicom for linux machines). 
+
+You should be able to type in rp-<insert rp identifier>.local/ into your browser and load some applications. 
+
+That's nice, so you can see that it works, and you can also update your red pitaya os from there. 
+
+-------------------------------------------------------------------------------------------
+
+If you want to really develop application, you need to actually access the OS (as opposed to using the web app to utilize existing apps). Easiest way I think is ssh.
+
+How do I ssh into it?
+
+I don't know its IP address.
+
+There's something called a "debug console". Lots of things have this (RTOS's and stuff). Basically a serial communication that gives you access to a terminal. Pretty sweet. To use the debug console:
+What you do is install minicom on your linux machine (or some "terminal emulator" for whatever OS you are using).
+
+Next to the power port on your red pitaya, there is a litte microusb connection. If you look on the PCB you'll see the letters CON for console. 
+Connect this to your PC (microusb to usb cable)
+
+To find out the name of the device, type in dmesg | grep tty
+You should see a device attached at /dev/ttyUSB0 or maybe /dev/ttyUSB1 
+Now you can minicom that, the red pitaya will let you open up a little console. 
+Baud rate should be 115200, which is the default baudrate for minicom.
+Command should look something like 
+>> sudo minicom -D /dev/ttyUSB0 
+
+Now just hit enter and a terminal should load. 
+
+(It will look like this:
+root@rp-<your red pitaya identifier>:~# 
+)
+
+Explore a little. 
+>> cd ..
+>> ls
+bin buildlog.txt etc lib media opt root 
+etc. etc.
+
+>> cd home/redpitaya/RedPitaya
+>> ls 
+blah blah blah Examples blah blah
+blah blah
+>> cd Examples
+>> cd C
+
+In this folder you'll see some C application examples which show how to use the provided API. 
+
+IMPORTANT NOTE FOR C DEVELOPMENT: 
+add the following line to bashrc
+export LD_LIBRARY_PATH=/opt/redpitaya/lib
+>> source ~/.bashrc
+
+also, you need to load the FPGA bitstream to use the C API:
+>> cat /opt/fpga/fgpa_0.94.bit > /dev/xdevcfg
+
+I made an alias for this (at end of  ~/.bashrc type in 
+alias fpgaconf='cat /opt/fpga/fgpa_0.94.bit > /dev/xdevcfg'
+)
+
+From the console, you could theoretically do all your development, but copying files with xmodem is weird (never succesfully did that) and minicom doesn't support opening text files in a nice way (it splits the screen in half for some reason, I don't know enough about things to know why)
+
+So just get the ip address so you can ssh into the red pitaya and develop that way.
+
+Type in 
+>> hostname -I 
+to get the IP address of your red pitaya. 
+
+Get out of minicom and the 
+>>ssh root@<your rp ip address>
+
+If it asks for a password, the password is "root"
+That's sketchy, so now that you're in, type in 
+>> passwd
+
+Follow the instructions.
+
+LBNL has strict requirements about network connected devices and their passwords, so choose a strong password. 
+
